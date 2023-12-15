@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Filter } from './Filter/Filter';
 import { Gallery } from './Gallery/Gallery';
 import { Wrapper } from './GlobalStyles';
-import { fetchImages } from './Services/Api';
+import { fetchImages } from './services/Api';
 import { Notify } from 'notiflix';
 import { Modal } from './Modal/Modal';
 import { Triangle } from 'react-loader-spinner';
