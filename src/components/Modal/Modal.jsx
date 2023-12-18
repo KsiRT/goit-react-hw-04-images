@@ -1,34 +1,33 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 
 import { ModWindow, Overlay } from './ModalStyled';
 
-export class Modal extends Component {
-  componentDidMount() {
-    document.addEventListener('keydown', this.handleKeyDown);
-  }
+export const Modal = ({ closeModal, imageURL }) => {
+  // componentDidMount()
 
-  componentWillUnmount() {
-    document.removeEventListener('keydown', this.handleKeyDown);
-  }
-  onBackdropClick = e => {
+  const onBackdropClick = e => {
     if (e.target === e.currentTarget) {
-      this.props.closeModal();
+      closeModal();
     }
   };
-  handleKeyDown = e => {
-    if (e.key === 'Escape') {
-      this.props.closeModal();
-    }
-  };
-  render() {
-    const { imageURL } = this.props;
 
-    return (
-      <Overlay onClick={this.onBackdropClick}>
-        <ModWindow>
-          <img src={imageURL} alt="" />
-        </ModWindow>
-      </Overlay>
-    );
-  }
-}
+  useEffect(() => {
+    const handleKeyDown = e => {
+      if (e.key === 'Escape') {
+        closeModal();
+      }
+    };
+    document.addEventListener('keydown', handleKeyDown);
+
+    // componentWillUnmount() перетворюється на return з useEffect'a
+    return document.removeEventListener('keydown', handleKeyDown);
+  }, [closeModal]);
+
+  return (
+    <Overlay onClick={onBackdropClick}>
+      <ModWindow>
+        <img src={imageURL} alt="" />
+      </ModWindow>
+    </Overlay>
+  );
+};
