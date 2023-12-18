@@ -26,7 +26,7 @@ export const App = () => {
   useEffect(() => {
     const getData = async () => {
       try {
-        dispatch();
+        dispatch({type: "LOADING", payload: true});
 
         // ?! continue here переписать фетч запросики на АПІ
 
@@ -35,14 +35,14 @@ export const App = () => {
           page,
           per_page,
         });
-        this.setState(prev => ({
-          images: [...prev.images, ...hits],
-          total: totalHits,
-        }));
+        if(!totalHits){
+          
+        }
+        dispatch({type:'UPDATE_IMAGES', payload: {hits, total: totalHits}})
       } catch (e) {
         Notify.error(e.message);
       } finally {
-        this.setState({ loading: false });
+        dispatch({type: "LOADING", payload: true});
       }
     };
   }, [query, page]);
