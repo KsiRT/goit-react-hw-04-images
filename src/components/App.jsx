@@ -1,4 +1,4 @@
-import React, { Component, useEffect, useReducer } from 'react';
+import React, { useEffect, useReducer } from 'react';
 import { Filter } from './Filter/Filter';
 import { Gallery } from './Gallery/Gallery';
 import { Wrapper } from './GlobalStyles';
@@ -26,35 +26,40 @@ export const App = () => {
   useEffect(() => {
     const getData = async () => {
       try {
-        dispatch({type: "LOADING", payload: true});
-
-        // ?! continue here переписать фетч запросики на АПІ
-
+        dispatch({ type: 'LOADING', payload: true });
         const { hits, totalHits } = await fetchImages({
           q: query,
           page,
           per_page,
         });
-        if(!totalHits){
-          
-        }
-        dispatch({type:'UPDATE_IMAGES', payload: {hits, total: totalHits}})
+
+        dispatch({
+          type: 'UPDATE_IMAGES',
+          payload: { hits, total: totalHits },
+        });
       } catch (e) {
         Notify.error(e.message);
       } finally {
-        dispatch({type: "LOADING", payload: true});
+        dispatch({ type: 'LOADING', payload: false });
       }
     };
-  }, [query, page]);
+    getData();
+  }, [query, page, per_page]);
 
   const handleLoadMore = () => {
-    dispatch({ type: 'LOAD_MORE' });
+    dispatch({ type: 'LOAD_MORE', payload: state.page + 1 });
   };
-  const handleSearch = () => {
-    dispatch({ type: 'SEARCH' });
+  const handleSearch = searchQuery => {
+    if (searchQuery === '') {
+      Notify.info('You need to type something in order to find 🧐');
+      return;
+    }
+    if (searchQuery !== query) {
+      dispatch({ type: 'SEARCH', payload: searchQuery });
+    }
   };
   const handleOpenImage = largeImageURL => {
-    dispatch({ type: 'OPEN_IMG' });
+    dispatch({ type: 'OPEN_IMG', payload: largeImageURL });
   };
   const toggleModal = () => {
     dispatch({ type: 'TOGGLE_MODAL' });

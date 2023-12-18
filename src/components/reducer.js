@@ -2,7 +2,7 @@ export const initialState = {
   images: [],
   query: 'cat',
   total: null,
-  page: 0,
+  page: 1,
   per_page: 12,
   largeImageURL: '',
   loading: false,
