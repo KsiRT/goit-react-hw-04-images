@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer } from 'react';
+import React, { useEffect, useReducer, useRef } from 'react';
 import { Filter } from './Filter/Filter';
 import { Gallery } from './Gallery/Gallery';
 import { Wrapper } from './GlobalStyles';
@@ -22,8 +22,14 @@ export const App = () => {
     isModalOpen,
   } = state;
 
+  const isFirstRender = useRef(true);
   //ComponentDidUpdate
   useEffect(() => {
+    //* Перевірка на перший рендер
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
     const getData = async () => {
       try {
         dispatch({ type: 'LOADING', payload: true });
