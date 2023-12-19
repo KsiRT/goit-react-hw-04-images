@@ -20,7 +20,7 @@ export const Modal = ({ closeModal, imageURL }) => {
     document.addEventListener('keydown', handleKeyDown);
 
     // componentWillUnmount() перетворюється на return з useEffect'a
-    return document.removeEventListener('keydown', handleKeyDown);
+    return (()=>document.removeEventListener('keydown', handleKeyDown));
   }, [closeModal]);
 
   return (

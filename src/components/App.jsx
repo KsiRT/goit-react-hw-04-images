@@ -2,12 +2,12 @@ import React, { useEffect, useReducer, useRef } from 'react';
 import { Filter } from './Filter/Filter';
 import { Gallery } from './Gallery/Gallery';
 import { Wrapper } from './GlobalStyles';
-import { fetchImages } from './services/Api';
+import { fetchImages } from '../services/Api';
 import { Notify } from 'notiflix';
 import { Modal } from './Modal/Modal';
 import { Triangle } from 'react-loader-spinner';
 import { LoadBtn, NoResults } from './Gallery/GalleryStyled';
-import { initialState, reducer } from './reducer';
+import { initialState, reducer } from '../reducer/reducer';
 
 export const App = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
